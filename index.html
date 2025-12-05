@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanguardia Federal | Noticias de Argentina</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- VARIABLES CSS (PALETA AZUL Y MORADA) --- */
+        :root {
+            --fondo-oscuro: #020617;
+            --azul-profundo: #172554;
+            --azul-claro: #3b82f6;
+            --morado-principal: #7c3aed;
+            --morado-brillante: #a855f7;
+            --blanco: #f8fafc;
+            --texto-gris: #cbd5e1;
+            --gradiente-header: linear-gradient(135deg, #0f172a 0%, #312e81 50%, #581c87 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            font-family: 'Montserrat', sans-serif;
+            color: #1e293b;
+        }
+
+        /* --- HEADER Y LETTERING --- */
+        header {
+            background: var(--gradiente-header);
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(88, 28, 135, 0.4);
+            position: relative;
+        }
+
+        .brand-wrapper {
+            display: inline-block;
+            border-bottom: 4px solid var(--morado-brillante);
+            padding-bottom: 10px;
+        }
+
+        h1.logo {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            color: var(--blanco);
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin: 0;
+            text-shadow: 3px 3px 0px var(--morado-principal);
+        }
+
+        h1.logo span {
+            color: var(--morado-brillante);
+            font-weight: 300;
+        }
+
+        .slogan {
+            color: var(--texto-gris);
+            font-size: 0.9rem;
+            margin-top: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* --- NAVEGACIÓN (CATEGORÍAS) --- */
+        nav {
+            background-color: var(--azul-profundo);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav button {
+            background: transparent;
+            border: none;
+            color: var(--blanco);
+            padding: 15px 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav button:hover {
+            color: var(--morado-brillante);
+            background-color: rgba(255,255,255,0.05);
+        }
+
+        nav button.active {
+            background-color: var(--morado-principal);
+            color: white;
+        }
+
+        /* --- CONTENEDOR DE NOTICIAS --- */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        .grid-news {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- TARJETA DE NOTICIA --- */
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(124, 58, 237, 0.2);
+        }
+
+        .card-img-wrapper {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .card:hover img {
+            transform: scale(1.1);
+        }
+
+        .category-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--morado-principal);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-location {
+            color: var(--azul-claro);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .card-summary {
+            font-size: 0.9rem;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .read-more-btn {
+            margin-top: auto;
+            color: var(--morado-principal);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- MODAL (POP UP) --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(2, 6, 23, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: white;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            border-radius: 15px;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+            background-color: var(--morado-principal);
+            color: white;
+        }
+
+        .modal-header img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+        }
+
+        .modal-body {
+            padding: 2.5rem;
+        }
+
+        .modal-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: #64748b;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+
+        .modal-title-full {
+            font-family: 'Merriweather', serif;
+            font-size: 2rem;
+            color: #0f172a;
+            margin-bottom: 25px;
+            line-height: 1.3;
+        }
+
+        .modal-text-full {
+            font-family: 'Merriweather', serif;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #334155;
+        }
+
+        .modal-text-full p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--fondo-oscuro);
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-news { grid-template-columns: 1fr; }
+            .modal-header img { height: 200px; }
+            .modal-title-full { font-size: 1.5rem; }
+            h1.logo { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand-wrapper">
+            <h1 class="logo">VANGUARDIA <span>FEDERAL</span></h1>
+        </div>
+        <div class="slogan">Periodismo Argentino Independiente</div>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <button class="active" onclick="filtrarNoticias('todas', this)">Todas</button>
+            <button onclick="filtrarNoticias('ultimo momento', this)">Último Momento</button>
+            <button onclick="filtrarNoticias('politica', this)">Política</button>
+            <button onclick="filtrarNoticias('economia', this)">Economía</button>
+            <button onclick="filtrarNoticias('deportes', this)">Deportes</button>
+            <button onclick="filtrarNoticias('cultural', this)">Cultural</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="grid-news" id="contenedor-noticias">
+            <!-- Las noticias se cargarán aquí con JS -->
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="cerrarModal()">&times;</button>
+            <div class="modal-header">
+                <img src="" alt="" id="m-img">
+            </div>
+            <div class="modal-body">
+                <div class="modal-meta">
+                    <span style="color: var(--morado-principal); font-weight: bold;" id="m-cat">CATEGORÍA</span>
+                    <span>|</span>
+                    <span id="m-loc">UBICACIÓN</span>
+                    <span>|</span>
+                    <span>Actualizado hace instantes</span>
+                </div>
+                <h2 class="modal-title-full" id="m-titulo">Título de la noticia</h2>
+                <div class="modal-text-full" id="m-texto">
+                    <!-- Texto completo -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Vanguardia Federal. Todos los derechos reservados.</p>
+        <p>Diseño web moderno en tonos azules y morados.</p>
+    </footer>
+
+    <script>
+        // --- BASE DE DATOS DE NOTICIAS CON TEXTOS LARGOS ---
+        // Usamos comillas invertidas ` ` para evitar errores con el texto largo
+        const noticias = [
+            {
+                id: 1,
+                categoria: "ultimo momento",
+                ubicacion: "Buenos Aires",
+                titulo: "Alerta Naranja: Fuertes tormentas avanzan sobre el AMBA",
+                imagen: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=800",
+                resumen: "El SMN advierte sobre caída de granizo y ráfagas de viento para esta noche.",
+                texto: `
+                    <p>El Servicio Meteorológico Nacional ha elevado a naranja el nivel de alerta para la Ciudad de Buenos Aires y el conurbano bonaerense. Se espera que un frente frío colisione con la masa de aire caliente actual, provocando tormentas severas a partir de las 20 horas.</p>
+                    <p><strong>Recomendaciones oficiales:</strong> Defensa Civil recomienda evitar circular por calles anegables y retirar objetos de los balcones. Las ráfagas podrían superar los 90 km/h en zonas abiertas.</p>
+                    <p>Asimismo, las empresas de energía han puesto en marcha su plan de contingencia ante posibles cortes de luz en los barrios periféricos. Se solicita a la población mantener cargados los dispositivos móviles y tener linternas a mano.</p>
+                    <p>El pronóstico extendido indica que las condiciones mejorarán recién hacia la madrugada del martes, con un marcado descenso de la temperatura que podría llegar a los 12 grados de mínima.</p>
+                `
+            },
+            {
+                id: 2,
+                categoria: "politica",
+                ubicacion: "Congreso Nacional",
+                titulo: "Diputados debate el Presupuesto 2025 en sesión maratónica",
+                imagen: "https://images.unsplash.com/photo-1575320181282-9afab399332c?w=800",
+                resumen: "Oficialismo y oposición negocian voto a voto la distribución de fondos.",
+                texto: `
+                    <p>La Cámara de Diputados vive horas decisivas. El debate por la Ley de Presupuesto 2025 ha entrado en un cuarto intermedio tras fuertes cruces por la asignación de recursos a las provincias del norte. El bloque oficialista asegura tener los votos, pero la oposición exige garantías sobre la obra pública.</p>
+                    <p>Los gobernadores han mantenido reuniones de último minuto en el despacho de la presidencia de la cámara. "No vamos a ceder en los puntos que afectan a nuestras economías regionales", declaró uno de los diputados opositores al salir del recinto.</p>
+                    <p>Se espera que la votación se realice en la madrugada, con un resultado que se anticipa muy ajustado. Mientras tanto, en las afueras del Congreso, diversas organizaciones sociales mantienen una vigilia a la espera de la resolución.</p>
+                    <p>El punto más conflictivo es el artículo 45, que faculta al Jefe de Gabinete a reasignar partidas presupuestarias sin control parlamentario, algo que la oposición considera inconstitucional.</p>
+                `
+            },
+            {
+                id: 3,
+                categoria: "economia",
+                ubicacion: "Rosario, Santa Fe",
+                titulo: "Cosecha récord de soja impulsa el ingreso de divisas",
+                imagen: "https://images.unsplash.com/photo-1620306168593-3d0d82967677?w=800",
+                resumen: "La zona núcleo registra rindes históricos tras las lluvias de la temporada.",
+                texto: `
+                    <p>El complejo agroexportador celebra una temporada excepcional. Según la Bolsa de Comercio de Rosario, los rendimientos por hectárea han superado el promedio de la última década. Los camiones colman los accesos a los puertos del Gran Rosario, generando una logística desafiante.</p>
+                    <p>Este volumen de exportación representa un alivio fundamental para las reservas del Banco Central. Los economistas proyectan que la liquidación de divisas de este trimestre estabilizará el tipo de cambio paralelo y permitirá flexibilizar algunas restricciones a las importaciones.</p>
+                    <p>El presidente de la Sociedad Rural destacó: "El campo demuestra una vez más que es el motor de la economía argentina, a pesar de la presión impositiva". Se espera que los ingresos fiscales por retenciones superen los 15.000 millones de dólares.</p>
+                `
+            },
+            {
+                id: 4,
+                categoria: "deportes",
+                ubicacion: "La Boca",
+                titulo: "Boca Juniors confirma el 11 titular para el Superclásico",
+                imagen: "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?w=800",
+                resumen: "El DT sorprendió con un cambio táctico en el mediocampo para enfrentar a River.",
+                texto: `
+                    <p>Se acabó el misterio. En la última práctica de fútbol formal, el entrenador xeneize paró el equipo que saldrá a la cancha el domingo. La gran novedad es la inclusión de un juvenil en la mitad de la cancha para generar más dinámica y presión alta.</p>
+                    <p>La Bombonera ya tiene las entradas agotadas desde hace días. Se espera un recibimiento histórico con más de 50.000 hinchas alentando. El operativo de seguridad contará con 1.200 efectivos para garantizar la paz en el espectáculo, con anillos de control desde tres cuadras a la redonda.</p>
+                    <p>Por el lado de River, aún persisten dudas sobre la condición física de su delantero estrella, quien entrenó diferenciado. El partido comenzará a las 17:00 horas y será arbitrado por una terna internacional.</p>
+                `
+            },
+            {
+                id: 6,
+                categoria: "economia",
+                ubicacion: "Vaca Muerta, Neuquén",
+                titulo: "Inversión millonaria para nuevo gasoducto en la Patagonia",
+                imagen: "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?w=800",
+                resumen: "Empresas energéticas buscan duplicar la capacidad de transporte de gas.",
+                texto: `
+                    <p>El potencial de Vaca Muerta sigue creciendo. Un consorcio de empresas internacionales anunció hoy la construcción de un nuevo gasoducto troncal que permitirá exportar gas a países limítrofes, reduciendo la dependencia energética.</p>
+                    <p>La obra, que comenzará el próximo mes, generará más de 2.000 puestos de trabajo directos en la provincia de Neuquén. El gobernador destacó que esto consolida a Argentina como un proveedor energético confiable a nivel regional.</p>
+                    <p>Además, se prevé la construcción de plantas de licuefacción para poder exportar GNL (Gas Natural Licuado) a Europa en los próximos cinco años, lo que podría cambiar la matriz exportadora del país.</p>
+                `
+            },
+            {
+                id: 7,
+                categoria: "ultimo momento",
+                ubicacion: "San Juan",
+                titulo: "Sismo de 4.5 grados se sintió en la capital sanjuanina",
+                imagen: "https://images.unsplash.com/photo-1583486333215-d72b223c2892?w=800",
+                resumen: "El epicentro fue en Caucete. No se reportan daños materiales ni víctimas.",
+                texto: `
+                    <p>El INPRES confirmó un movimiento sísmico ocurrido a las 14:30 horas con epicentro a 20 km de Caucete. Aunque la magnitud fue moderada (4.5 en la escala de Richter), la poca profundidad hizo que se sintiera con fuerza en los edificios altos de la capital.</p>
+                    <p>Protección Civil realizó un relevamiento rápido y confirmó que no hay daños estructurales graves. Se recuerda a la población tener siempre lista la mochila de emergencia y repasar los planes de evacuación familiar.</p>
+                    <p>Las clases fueron suspendidas preventivamente en el turno tarde para realizar inspecciones oculares en los establecimientos educativos más antiguos.</p>
+                `
+            },
+            {
+                id: 8,
+                categoria: "deportes",
+                ubicacion: "Ezeiza",
+                titulo: "Lionel Messi se suma a los entrenamientos de la Selección",
+                imagen: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Messi_Training_2018.jpg/800px-Messi_Training_2018.jpg",
+                resumen: "El capitán llegó esta mañana al país para la doble fecha de eliminatorias.",
+                texto: `
+                    <p>La Scaloneta está completa. Lionel Messi aterrizó en su avión privado y se dirigió directamente al predio de la AFA en Ezeiza. El astro argentino se mostró sonriente y en buena forma física tras su último partido en la MLS.</p>
+                    <p>Argentina enfrentará a Uruguay y Brasil en dos partidos claves para mantener el liderazgo en la tabla. El cuerpo técnico evaluará si Messi jugará los 90 minutos en ambos encuentros o si se dosificará su carga debido a la seguidilla de partidos.</p>
+                    <p>Miles de hinchas se acercaron al predio con la esperanza de ver al ídolo, generando un clima de fiesta en las inmediaciones del aeropuerto internacional.</p>
+                `
+            },
+            {
+                id: 9,
+                categoria: "politica",
+                ubicacion: "Tucumán",
+                titulo: "El Gobernador anuncia aumento salarial para estatales",
+                imagen: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800",
+                resumen: "Se firmó el decreto que otorga un 15% de incremento a partir del próximo mes.",
+                texto: `
+                    <p>En conferencia de prensa desde la Casa de Gobierno, el mandatario provincial confirmó el cierre de las paritarias con los gremios estatales. El acuerdo incluye una cláusula gatillo por inflación trimestral para evitar la pérdida del poder adquisitivo.</p>
+                    <p>"Es un esfuerzo fiscal enorme, pero necesario para cuidar el bolsillo de los trabajadores en este contexto difícil", declaró el gobernador. Los gremios docentes y de salud aceptaron la propuesta, garantizando la paz social.</p>
+                    <p>El pago del aumento se hará efectivo con el cronograma del mes próximo, incluyendo también un bono extraordinario por única vez para las categorías más bajas del escalafón.</p>
+                `
+            },
+            {
+                id: 10,
+                categoria: "cultural",
+                ubicacion: "Mendoza",
+                titulo: "La Fiesta de la Vendimia deslumbra al turismo internacional",
+                imagen: "https://images.unsplash.com/photo-1516600164266-f3b8166ae679?w=800",
+                resumen: "El acto central en el teatro griego Frank Romero Day fue un éxito rotundo.",
+                texto: `
+                    <p>Mendoza vivió su noche más mágica. El espectáculo "Milagro del Vino Nuevo" cautivó a las más de 20.000 personas presentes con un despliegue de luces, sonido y más de 800 artistas en escena, narrando la historia del vino y el esfuerzo de los cosechadores.</p>
+                    <p>Turistas de Brasil, Chile y Estados Unidos colmaron la capacidad hotelera de la ciudad. La elección de la Reina Nacional fue reñida, coronando finalmente a la representante de San Rafael en una votación emocionante que se definió en el último recuento.</p>
+                    <p>El gobernador destacó que la Vendimia no es solo una fiesta, sino una industria cultural que genera miles de puestos de trabajo directos e indirectos durante la temporada.</p>
+                `
+            },
+            {
+                id: 11,
+                categoria: "economia",
+                ubicacion: "Jujuy",
+                titulo: "El Litio se consolida como el 'oro blanco' del norte argentino",
+                imagen: "https://images.unsplash.com/photo-1682685797208-c740d58b2f9c?w=800",
+                resumen: "Las exportaciones mineras crecieron un 40% interanual.",
+                texto: `
+                    <p>Los salares de la Puna jujeña trabajan a tiempo completo. La demanda global de vehículos eléctricos ha disparado el precio del carbonato de litio, beneficiando directamente a las provincias del NOA que integran la Mesa del Litio.</p>
+                    <p>Sin embargo, el crecimiento viene acompañado de desafíos. Las comunidades locales exigen mayores controles ambientales sobre el uso del agua, y el gobierno provincial ha prometido reinvertir las regalías en infraestructura hídrica y educativa para los pueblos originarios.</p>
+                    <p>Se espera la llegada de dos nuevas empresas multinacionales antes de fin de año, lo que convertiría a Argentina en el segundo productor mundial de este mineral estratégico.</p>
+                `
+            },
+            {
+                id: 12,
+                categoria: "ultimo momento",
+                ubicacion: "Bariloche",
+                titulo: "Nieve histórica en primavera sorprende a los turistas",
+                imagen: "https://images.unsplash.com/photo-1612294027788-b646c07887e5?w=800",
+                resumen: "El Cerro Catedral amaneció cubierto de blanco en una postal inusual.",
+                texto: `
+                    <p>Lo que parecía un pronóstico errado se convirtió en realidad. Una intensa nevada cubrió Bariloche durante la madrugada, acumulando hasta 20 cm en la base del Cerro Catedral. Los turistas que llegaron buscando trekking se encontraron con un paisaje invernal soñado.</p>
+                    <p>Vialidad Nacional trabaja intensamente para despejar la Ruta 40 y el acceso al aeropuerto, que operó con demoras durante las primeras horas de la mañana debido a la baja visibilidad y el hielo en pista.</p>
+                    <p>Los comerciantes del centro cívico celebran el fenómeno climático, ya que ha impulsado la venta de chocolate caliente y ropa de abrigo fuera de temporada.</p>
+                `
+            },
+            {
+                id: 13,
+                categoria: "deportes",
+                ubicacion: "Mar del Plata",
+                titulo: "Finalizan los Juegos Evita con récord de participantes",
+                imagen: "https://images.unsplash.com/photo-1526676037777-05a232554f77?w=800",
+                resumen: "Más de 25.000 jóvenes compitieron en 40 disciplinas.",
+                texto: `
+                    <p>La ciudad feliz despidió a las delegaciones de todo el país. Los Juegos Evita 2024 cerraron con un acto multitudinario en la plazoleta Almirante Brown. Buenos Aires encabezó el medallero, seguida de cerca por Córdoba y Santa Fe en una disputa muy pareja.</p>
+                    <p>Las autoridades deportivas destacaron el nivel competitivo y el compañerismo mostrado por los jóvenes. "Más allá de las medallas, lo importante es la integración federal que logramos", afirmó el Secretario de Deportes.</p>
+                    <p>Se anunciaron nuevas inversiones en infraestructura deportiva escolar para el próximo año, con el objetivo de detectar talentos para los próximos Juegos Olímpicos de la Juventud.</p>
+                `
+            },
+            {
+                id: 14,
+                categoria: "politica",
+                ubicacion: "CABA",
+                titulo: "Marcha masiva en el Obelisco reclama por la Ley de Alquileres",
+                imagen: "https://images.unsplash.com/photo-1495572050486-a96fbb138980?w=800",
+                resumen: "Inquilinos y propietarios exigen una reforma urgente ante la falta de oferta.",
+                texto: `
+                    <p>El centro porteño se vio colapsado esta tarde. Agrupaciones de inquilinos se movilizaron hacia el Obelisco exigiendo una regulación más estricta, mientras que cámaras inmobiliarias piden la derogación total de la ley actual para incentivar la oferta.</p>
+                    <p>La situación habitacional en las grandes ciudades es crítica, con precios que se actualizan por encima de la inflación y una oferta casi nula en pesos. Muchos contratos se están pactando ilegalmente en dólares.</p>
+                    <p>El Congreso prometió tratar una nueva reforma en las sesiones extraordinarias, buscando un punto medio que proteja al inquilino pero brinde seguridad jurídica al propietario.</p>
+                `
+            },
+            {
+                id: 15,
+                categoria: "cultural",
+                ubicacion: "Buenos Aires",
+                titulo: "La Noche de los Museos bate récord de asistencia",
+                imagen: "https://images.unsplash.com/photo-1565060169346-6d554a72d7f8?w=800",
+                resumen: "Más de un millón de personas recorrieron los espacios culturales.",
+                texto: `
+                    <p>Fue una verdadera fiesta de la cultura. Desde el Museo de Bellas Artes hasta pequeños centros culturales barriales, las filas fueron la constante de la noche. El transporte público gratuito facilitó la movilidad de familias enteras que armaron su propio recorrido.</p>
+                    <p>Lo más destacado fue la apertura de espacios usualmente cerrados al público, como la cúpula del Congreso y antiguos edificios bancarios del microcentro, que mostraron su arquitectura iluminada especialmente para la ocasión.</p>
+                    <p>La gastronomía acompañó con food trucks en las plazas aledañas, convirtiendo la noche en un evento social y cultural que se extendió hasta las 3 de la mañana.</p>
+                `
+            },
+            {
+                id: 16,
+                categoria: "economia",
+                ubicacion: "Mercado Central",
+                titulo: "Bajan los precios de frutas y verduras estacionales",
+                imagen: "https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=800",
+                resumen: "El tomate y la lechuga muestran retrocesos en sus valores.",
+                texto: `
+                    <p>Un alivio para el bolsillo de los consumidores. El relevamiento semanal del Mercado Central muestra una baja del 20% en hortalizas de hoja verde y tomate redondo, gracias a la mayor oferta proveniente del cinturón verde de La Plata por el buen clima.</p>
+                    <p>Los puesteros recomiendan consumir productos de estación para ahorrar. "La gente tiene que buscar precio y calidad, hoy conviene llevar cítricos y verduras de hoja", comentó un comerciante.</p>
+                    <p>Sin embargo, advierten que frutas importadas como la banana y el ananá sufrirán ajustes en las próximas semanas debido a los aumentos en los costos de logística y combustible.</p>
+                `
+            },
+            {
+                id: 17,
+                categoria: "deportes",
+                ubicacion: "San Juan",
+                titulo: "El Turismo Carretera define el campeonato en el Villicum",
+                imagen: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800",
+                resumen: "Gran expectativa por la última fecha de la Copa de Oro.",
+                texto: `
+                    <p>Los motores rugen en la precordillera sanjuanina. El autódromo del Villicum será testigo de una definición apasionante. Tres pilotos llegan con chances matemáticas de alzar la Copa de Oro, separados por apenas 15 puntos en la tabla general.</p>
+                    <p>Se espera un lleno total, con fanáticos del automovilismo acampando desde el jueves en las inmediaciones para conseguir la mejor ubicación. El "folklore" del TC se hace sentir con asados y banderas de las cuatro marcas.</p>
+                    <p>La clasificación del sábado será clave para las aspiraciones de los candidatos al título, ya que otorga puntos fundamentales antes de la gran final del domingo al mediodía.</p>
+                `
+            },
+            {
+                id: 18,
+                categoria: "politica",
+                ubicacion: "Misiones",
+                titulo: "Histórica ley de protección de humedales en el litoral",
+                imagen: "https://images.unsplash.com/photo-1577985051167-0d49eec21977?w=800",
+                resumen: "La legislatura provincial aprobó por unanimidad la normativa ambiental.",
+                texto: `
+                    <p>Misiones da un paso adelante en materia ecológica y se pone a la vanguardia. La nueva ley prohíbe el uso de agroquímicos cerca de cursos de agua y establece zonas de reserva estricta en los humedales del Paraná para proteger la biodiversidad.</p>
+                    <p>Organizaciones ambientalistas celebraron la medida en las afueras del recinto con carteles y música. "Es un ejemplo que debería seguirse a nivel nacional, no podemos seguir esperando", declararon los voceros de la asamblea.</p>
+                    <p>La ley también contempla un fondo especial para ayudar a los productores a reconvertir sus cultivos hacia prácticas agroecológicas más amigables con el medio ambiente.</p>
+                `
+            },
+            {
+                id: 19,
+                categoria: "cultural",
+                ubicacion: "Ushuaia",
+                titulo: "Festival de Cine de Montaña en el Fin del Mundo",
+                imagen: "https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=800",
+                resumen: "Directores internacionales presentan documentales sobre aventura.",
+                texto: `
+                    <p>Ushuaia se convierte esta semana en la capital del cine aventura. El festival "Shh..." proyecta más de 30 documentales filmados en las condiciones más extremas del planeta, desde el Himalaya hasta la Antártida. La sala Niní Marshall estuvo colmada en la función de apertura.</p>
+                    <p>El evento busca concientizar sobre el cambio climático y el retroceso de los glaciares a través de historias impactantes. "El cine es una herramienta poderosa para mostrar lo que estamos perdiendo", dijo el director del festival.</p>
+                    <p>Además de las proyecciones, hay talleres gratuitos de fotografía de naturaleza y charlas abiertas con escaladores de renombre mundial que comparten sus experiencias.</p>
+                `
+            },
+            {
+                id: 20,
+                categoria: "economia",
+                ubicacion: "Córdoba",
+                titulo: "La industria automotriz aumenta su producción un 12%",
+                imagen: "https://images.unsplash.com/photo-1565514020176-db79237b6eb7?w=800",
+                resumen: "Las terminales suman turnos rotativos para abastecer a Brasil.",
+                texto: `
+                    <p>Buenas noticias para la industria manufacturera y el empleo. Las plantas automotrices de Santa Isabel y Ferreyra han incrementado su ritmo de producción debido a un aumento significativo en los pedidos de exportación, principalmente camionetas utilitarias hacia el mercado brasileño.</p>
+                    <p>El sindicato SMATA confirmó la contratación de 300 nuevos operarios temporales para cubrir los nuevos turnos rotativos. Esto genera un efecto derrame positivo en las cientos de pymes autopartistas que proveen insumos a las grandes fábricas.</p>
+                    <p>Los directivos de las terminales aseguran que si se mantienen las reglas de juego claras, el sector podría alcanzar niveles récord de producción para finales de 2025.</p>
+                `
+            }
+        ];
+
+        // --- LÓGICA DE LA PÁGINA ---
+
+        const contenedor = document.getElementById('contenedor-noticias');
+        const modal = document.getElementById('modal');
+        const botonesNav = document.querySelectorAll('nav button');
+
+        // Función para renderizar tarjetas
+        function renderizarNoticias(lista) {
+            contenedor.innerHTML = '';
+            
+            lista.forEach(item => {
+                const card = document.createElement('article');
+                card.className = 'card';
+                // Pasar el objeto completo al hacer click
+                card.onclick = function() { abrirModal(item); };
+
+                card.innerHTML = `
+                    <div class="card-img-wrapper">
+                        <span class="category-tag">${item.categoria}</span>
+                        <img src="${item.imagen}" alt="${item.titulo}" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-location">${item.ubicacion}</div>
+                        <h3 class="card-title">${item.titulo}</h3>
+                        <p class="card-summary">${item.resumen}</p>
+                        <span class="read-more-btn">Leer noticia completa &rarr;</span>
+                    </div>
+                `;
+                contenedor.appendChild(card);
+            });
+        }
+
+        // Función de Filtrado
+        function filtrarNoticias(categoria, btn) {
+            // Actualizar estilo botones
+            botonesNav.forEach(b => b.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+
+            // Filtrar array
+            if (categoria === 'todas') {
+                renderizarNoticias(noticias);
+            } else {
+                const filtradas = noticias.filter(n => n.categoria === categoria);
+                renderizarNoticias(filtradas);
+            }
+        }
+
+        // Funciones del Modal
+        function abrirModal(noticia) {
+            document.getElementById('m-img').src = noticia.imagen;
+            document.getElementById('m-cat').textContent = noticia.categoria.toUpperCase();
+            document.getElementById('m-loc').textContent = noticia.ubicacion;
+            document.getElementById('m-titulo').textContent = noticia.titulo;
+            
+            // IMPORTANTE: innerHTML para que se vean los párrafos y negritas
+            document.getElementById('m-texto').innerHTML = noticia.texto; 
+
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden'; // Bloquear scroll de fondo
+        }
+
+        function cerrarModal() {
+            modal.classList.remove('open');
+            document.body.style.overflow = 'auto'; // Reactivar scroll
+        }
+
+        // Cerrar al hacer clic fuera del contenido
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) cerrarModal();
+        });
+
+        // Iniciar la página con todas las noticias
+        renderizarNoticias(noticias);
+
+    </script>
+        
+
+        // --- LÓGICA DE LA PÁGINA ---
+
+        const contenedor = document.getElementById('contenedor-noticias');
+        const modal = document.getElementById('modal');
+        const botonesNav = document.querySelectorAll('nav button');
+
+        // Función para renderizar tarjetas
+        function renderizarNoticias(lista) {
+            contenedor.innerHTML = '';
+            
+            lista.forEach(item => {
+                const card = document.createElement('article');
+                card.className = 'card';
+                card.onclick = () => abrirModal(item);
+
+                card.innerHTML = `
+                    <div class="card-img-wrapper">
+                        <span class="category-tag">${item.categoria}</span>
+                        <img src="${item.imagen}" alt="${item.titulo}" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-location">${item.ubicacion}</div>
+                        <h3 class="card-title">${item.titulo}</h3>
+                        <p class="card-summary">${item.resumen}</p>
+                        <span class="read-more-btn">Leer noticia completa &rarr;</span>
+                    </div>
+                `;
+                contenedor.appendChild(card);
+            });
+        }
+
+        // Función de Filtrado
+        function filtrarNoticias(categoria, btn) {
+            // Actualizar estilo botones
+            botonesNav.forEach(b => b.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+
+            // Filtrar array
+            if (categoria === 'todas') {
+                renderizarNoticias(noticias);
+            } else {
+                const filtradas = noticias.filter(n => n.categoria === categoria);
+                renderizarNoticias(filtradas);
+            }
+        }
+
+        // Funciones del Modal
+        function abrirModal(noticia) {
+            document.getElementById('m-img').src = noticia.imagen;
+            document.getElementById('m-cat').textContent = noticia.categoria.toUpperCase();
+            document.getElementById('m-loc').textContent = noticia.ubicacion;
+            document.getElementById('m-titulo').textContent = noticia.titulo;
+            document.getElementById('m-texto').innerHTML = noticia.texto; // Usamos innerHTML para respetar los párrafos <p>
+
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden'; // Bloquear scroll de fondo
+        }
+
+        function cerrarModal() {
+            modal.classList.remove('open');
+            document.body.style.overflow = 'auto'; // Reactivar scroll
+        }
+
+        // Cerrar al hacer clic fuera del contenido
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) cerrarModal();
+        });
+
+        // Iniciar la página con todas las noticias
+        renderizarNoticias(noticias);
+
+    </script>
+</body>
+</html>
